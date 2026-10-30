@@ -22,7 +22,17 @@ game, category, mode   From the camo name (sat = Black Ops 7,
                        cer = Black Ops 6, jup = MW3, camo_x = base).
 slots_used             Slot numbers the camo fills.
 unique_textures        Fewer than slot_count means slots share a texture.
-slot_0 ... slot_35     Texture ID in that slot. Same ID = same texture.
+slot_0 ... slot_35     What the texture in that slot is (see below), or
+                       its real name when known.
 
-What each slot does is not mapped yet. Slots come in five groups of
-seven (0-6, 7-13, 14-20, 21-27, 28-34) plus slot 35.
+What each slot does
+-------------------
+Slots come in five groups of seven plus slot 35. The texture format
+the game uses for each group shows what it is:
+  0-6     color (sRGB)
+  7-13    normal + gloss, packed (linear RGBA)
+  14-20   grayscale mask (one channel)
+  21-27   second color layer (sRGB)
+  28-34   data map (linear RGB)
+  35      distortion map (names end in _distort or _wobble)
+Most camos use slots 0, 1 and 7, and almost half also use 21.
