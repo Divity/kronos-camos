@@ -22,8 +22,8 @@ game, category, mode   From the camo name (sat = Black Ops 7,
                        cer = Black Ops 6, jup = MW3, camo_x = base).
 slots_used             Slot numbers the camo fills.
 unique_textures        Fewer than slot_count means slots share a texture.
-slot_0 ... slot_35     What the texture in that slot is (see below), or
-                       its real name when known.
+slot_0 ... slot_35     The texture in that slot: its real name when known,
+                       else image_<hash>, the name export tools give it.
 
 What each slot does
 -------------------
