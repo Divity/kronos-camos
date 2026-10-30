@@ -22,6 +22,10 @@ previews/<camo name>.webp is the game's own menu preview for that
 camo, taken from its ui_<camo name> image. 2,390 of the 2,412 camos
 have one.
 
+thumbs/<hash>.webp is a small copy of each slot texture, taken from
+the game files. Normal maps look purple; masks are black and white.
+1x1 textures are a single flat pixel, so they have no picture.
+
 Columns
 -------
 game, category, mode   From the camo name (sat = Black Ops 7,
