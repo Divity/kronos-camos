@@ -61,6 +61,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .slot b { font-weight: 600; }
 .slot i { font-style: normal; opacity: .7; }
 .slot { align-items: center; }
+.hx { cursor: copy; border-bottom: 1px dotted currentColor; }
+.hx:hover { color: var(--accent); }
 .th { width: 28px; height: 28px; border-radius: 4px; flex: none; display: inline-grid; place-items: center; background: var(--bg); font-size: .6rem; color: var(--muted); object-fit: cover; position: relative; transition: transform .12s; }
 .slot:hover img.th { transform: scale(4); z-index: 3; box-shadow: 0 4px 16px rgba(0,0,0,.35); }
 @media (hover: none) { .slot:hover img.th { transform: none; } }
@@ -142,7 +144,7 @@ function row(c) {
   const seen = {};
   c[4].forEach(s => seen[s[1]] = (seen[s[1]] || 0) + 1);
   const reused = Object.values(seen).filter(n => n > 1).length;
-  const slots = c[4].map(([s, t]) => `<button class="slot g${groupOf(s)}${t === state.tex ? " hit" : ""}" data-t="${t}" title="${role[groupOf(s)]}: ${N[t] || "image_" + T[t]}. Same texture in ${useCount[t]} camo${useCount[t] === 1 ? "" : "s"}, click to see them.">${thumb(t)}<b>${s}</b><i>${role[groupOf(s)]}</i>${N[t] || T[t]}</button>`).join("");
+  const slots = c[4].map(([s, t]) => `<button class="slot g${groupOf(s)}${t === state.tex ? " hit" : ""}" data-t="${t}" title="${role[groupOf(s)]}: ${N[t] || "image_" + T[t]}. Click the hash to copy it. Click the rest to see the ${useCount[t]} camo${useCount[t] === 1 ? "" : "s"} using it.">${thumb(t)}<b>${s}</b><i>${role[groupOf(s)]}</i><span class="hx" data-c="${N[t] || T[t]}">${N[t] || T[t]}</span></button>`).join("");
   const pv = hasPreview.has(c[0]) ? `<img class="pv" loading="lazy" decoding="async" src="previews/${c[0]}.webp" alt="" width="72" height="72">` : `<div class="pv"></div>`;
   return `<div class="camo">${pv}<div class="body"><div class="head"><span class="name">${c[0]}</span><span class="tag">${c[1]} / ${c[2]}${c[3] !== "Any" ? " / " + c[3] : ""}</span><button class="copy" data-n="${c[0]}">Copy folder name</button></div>
     <div class="slots">${slots}</div>
@@ -164,6 +166,12 @@ $("cat").addEventListener("change", e => { state.cat = e.target.value; state.sho
 $("more").addEventListener("click", () => { state.shown += 120; render(); });
 $("cleartex").addEventListener("click", () => { state.tex = -1; render(); });
 $("list").addEventListener("click", e => {
+  const h = e.target.closest(".hx");
+  if (h) {
+    const v = h.dataset.c, done = () => { h.textContent = "copied"; setTimeout(() => h.textContent = v, 1000); };
+    navigator.clipboard?.writeText(v).then(done, () => getSelection().selectAllChildren(h));
+    return;
+  }
   const s = e.target.closest(".slot");
   if (s) { state.tex = +s.dataset.t; state.shown = 60; render(); window.scrollTo({ top: $("list").offsetTop - 120 }); return; }
   const b = e.target.closest(".copy");
