@@ -16,6 +16,12 @@ Make a pack
    Only slots listed in slots_used for that camo do anything.
 4. Restart the game. poi_reg.log shows "camos/<camo>/<slot> applied".
 
+Previews
+--------
+previews/<camo name>.webp is the game's own menu preview for that
+camo, taken from its ui_<camo name> image. 2,390 of the 2,412 camos
+have one.
+
 Columns
 -------
 game, category, mode   From the camo name (sat = Black Ops 7,
